@@ -48,13 +48,13 @@ Tested on:
 
 
 ### ***Part 1: For Scene-Graph-Benchmark***
-**1. Path you need to know:**  
-    *$Repo* : path to main repo.
-    *$Check* : path to checkpoints. 
-    *$Custom* : path to your images. Only .jpg files are allowed
-    *$Output* : path to save your result. 
-    *$Glove* : path to save word vectors
-    *$Model* : path to your pre-trained model. $Check/causal-motifs-sgdet
+**1. Path you need to know:**    
+    *$Repo* : path to main repo.  
+    *$Check* : path to checkpoints.   
+    *$Custom* : path to your images. Only .jpg files are allowed  
+    *$Output* : path to save your result.   
+    *$Glove* : path to save word vectors.    
+    *$Model* : path to your pre-trained model. $Check/causal-motifs-sgdet.  
 
 **2. Install Scene-Graph-Benchmark**  
 Follow the instruction [here](https://github.com/KaihuaTang/Scene-Graph-Benchmark.pytorch/blob/master/INSTALL.md) to meet the requirements of Scene-Graph-Benchmark. Note you should clone Scene-Graph-Benchmark into *$Repo*.
