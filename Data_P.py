@@ -17,12 +17,13 @@ import torch.nn as nn
 from torch.autograd import Variable
 
 
-def g_word_vec(root, out, Name,dim):
+def g_word_vec(root, out, Name, dim):
     """
-
+    Function use to replace word index into real feature: the word vector
     :param root: path to nodel_labels.npy & label_dict.npy
     :param out: path to save the result
     :param Name: dataset name
+    :param dim: dimension of word vector
     :return:
     """
     O_Natrr = Name + '_node_attributes.txt'
@@ -49,6 +50,7 @@ def g_word_vec(root, out, Name,dim):
 
 
 def main(args):
+    
     Info = "custom_data_info.json"
     Pred = 'custom_prediction.json'
     Ann = 'scene_validation_annotations_20170908.json'  # Store file names and it's label id
@@ -86,7 +88,7 @@ def main(args):
         if method == 'a':
             percent = float(args.para)
             Num_Edges = int(79 * 79 * percent)
-        if method =='c':
+        if method == 'c':
             Num_Edges = int(args.para)
 
         global_node_index = 1
@@ -113,8 +115,8 @@ def main(args):
                 scores = float(args.para)
                 ss = pr_now['rel_scores']
                 for score in ss:
-                    if float(score)>=scores:
-                        Num_Edges = Num_Edges +1
+                    if float(score) >= scores:
+                        Num_Edges = Num_Edges + 1
             for j in range(Num_Edges):
                 a = pairs[j][0]
                 b = pairs[j][1]
@@ -127,7 +129,6 @@ def main(args):
 
             Num_Nodes = len(node_temp)
 
-
             ## Step 3: Get Node and real edges
             for j in range(Num_Nodes):
                 # node_index.append(j)
@@ -137,17 +138,17 @@ def main(args):
                 tp2 = Edges_temp[j][1]
                 # print("shh"+str(tp1) + " " + str(tp2))
                 for k in range(Num_Nodes):
-                    if tp1==node_temp[k]:
+                    if tp1 == node_temp[k]:
                         a = k
-                    if tp2==node_temp[k]:
+                    if tp2 == node_temp[k]:
                         b = k
-                Edges.append([a+global_node_index,b+global_node_index])
+                Edges.append([a + global_node_index, b + global_node_index])
 
             ## Step 4: Indicate Node
             Num_Nodes = len(node_temp)
             for j in range(Num_Nodes):
                 Node_Index.append(i + 1)
-            global_node_index +=Num_Nodes
+            global_node_index += Num_Nodes
         # print(global_node_index)
 
 
@@ -163,19 +164,18 @@ def main(args):
 
             pr_now = pred[str(i)]
 
-
             ## Step 2: Get Node Index and Node Labels
             Num_Nodes = 0
-            if method =='d':
-                Num_Nodes = int(79*float(args.para))
-            if method =='f':
+            if method == 'd':
+                Num_Nodes = int(79 * float(args.para))
+            if method == 'f':
                 Num_Nodes = int(args.para)
             if method == 'e':
                 scores = float(args.para)
                 ss = pr_now["bbox_scores"]
                 for score in ss:
-                    if float(score)>=scores:
-                        Num_Nodes = Num_Nodes+1
+                    if float(score) >= scores:
+                        Num_Nodes = Num_Nodes + 1
             for j in range(Num_Nodes):
                 Node_Index.append(i + 1)
                 Node_Labels.append(pr_now['bbox_labels'][j])
@@ -185,8 +185,8 @@ def main(args):
             for j in range(len(pairs)):
                 a = pairs[j][0]
                 b = pairs[j][1]
-                if a<=Num_Nodes and b <=Num_Nodes:
-                    Edges.append([a+global_node_index,b+global_node_index])
+                if a <= Num_Nodes and b <= Num_Nodes:
+                    Edges.append([a + global_node_index, b + global_node_index])
 
 
 
@@ -214,7 +214,7 @@ def main(args):
     # Node dict
     np.save(os.path.join(Out, 'label_dict.npy'), b)
 
-    g_word_vec(Out,Out,Name,dim)
+    g_word_vec(Out, Out, Name, dim)  # Please comment this line if you need a global dictionary to generate word vector
 
 
 if __name__ == '__main__':
@@ -223,8 +223,8 @@ if __name__ == '__main__':
                         help="Output dir for result")
     parser.add_argument('--root', type=str, default='', help="Scene Result files location")
     parser.add_argument('--name', type=str, default='shana', help="Name of our dataset")
-    parser.add_argument('--method',type=str,default='a',help="Methods to select edges and nodes")
-    parser.add_argument('--para',type=str,default='0',help="parameters that using in different methods")
-    parser.add_argument('--dim',type=int,default=500,help="word_vector dimension")
+    parser.add_argument('--method', type=str, default='a', help="Methods to select edges and nodes")
+    parser.add_argument('--para', type=str, default='0', help="parameters that using in different methods")
+    parser.add_argument('--dim', type=int, default=500, help="word_vector dimension")
     args = parser.parse_args()
     main(args)
