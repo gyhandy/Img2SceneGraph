@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+
+
+<!-- === Header Starts === -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <title>Img2SceneGraph</title>
+
+  <link href="./source/bootstrap.min.css" rel="stylesheet">
+  <link href="./source/font.css" rel="stylesheet" type="text/css">
+  <link href="./source/style.css" rel="stylesheet" type="text/css">
+  <style type="text/css">
+p{ padding-left: 2em;}
+p2{padding-left: 1em;}
+</style>
+</head>
+<!-- === Header Ends === -->
+
+
+<body>
+
+
+<!-- === Home Section Starts === -->
+<div class="section">
+  <!-- === Title Starts === -->
+  <div class="header">
+    <div class="logo">
+      <a href="http://ilab.usc.edu/" target="_blank"><img src="./media/usclogo.png"></a>
+    </div>
+      <div class="teaser">
+   <!--  <a href="#demo"><img src="source/Fonts-Logo.png" style="width: 70%;"></a>-->
+  </div>
+    <div class="title", style="padding-top: 10pt;">
+     Img2SceneGraph <br>
+    </div>
+  </div>
+  <!-- === Title Ends === -->
+  <div class="author">
+    <a href="https://gyhandy.github.io/" target="_blank">Yunhao Ge</a>,
+    <a href="https://github.com/Pangyk" target="_blank">Yunkui Peng</a>,
+    <a href="https://github.com/FredericaLee" target="_blank">Linwei Li</a>,
+    <a href="https://scholar.google.com/citations?user=xhUvqK8AAAAJ&hl=en" target="_blank">Laurent Itti</a>
+  </div>
+  <div class="institution">
+    University of Southern California
+  </div>
+  <div class="link">
+    <a href="https://openreview.net/forum?id=Bo2LZfaVHNi" target="_blank">[Paper]</a>&nbsp;
+    <a href="https://github.com/gyhandy/Img2SceneGraph" target="_blank">[Code]</a>
+    <a href="#C1">[Download]</a>
+</div>
+
+</div>
+<!-- === Home Section Ends === -->
+
+<!-- === Overview Section Starts === -->
+<div class="section">
+  <div class="title">Overview</div>
+  <div class="body">
+    <b>Img2SceneGraph</b>  provides a pipeline that transfers images to scene graphs with node attributes.
+    It can generate graph datasets using on various downstream tasks.
+    <br />
+    <br />
+
+    <b>Our primary motive for creating the Img2SceneGraph pipeline, is that it allows rapid idea prototyping for
+    graph compression and representation learning.</b>
+     <br />
+    <br />
+  <div class="body">
+    A typical work-flow of <b>Img2SceneGraph</b> pipeline contains two steps. For each image:
+    <br/>
+
+    <b>Step 1 : </b> <br/>
+    Use the pre-trained model from Scene-Graph-Benchmark <a href="https://github.com/KaihuaTang/Scene-Graph-Benchmark.pytorch" target="_blank">
+    (Tang, 2020;Tang et al., 2019; 2020)</a>  to
+    synthesis the following outputs: 79 <b>bounding boxes (b-boxes)labeled by a single word</b> and over 6,000 <b>relationship pairs (rel-pairs)</b>
+    between b-boxes, both of them are sorted by their corresponding confidence scores.
+    <br />
+     <br/>
+     <b>Step 2 : </b> <br/>
+    Select nodes and edges using different methods to form a Scene Graph:
+    <br/>
+    <p>
+      <b><i>Select edges first</i></b>
+    <br/>
+(a) Select the top n% rel-pairs as edges and corresponding b-boxes as nodes.
+    <br/>
+(b) Select rel-pairs with confidence score higher than k as edges and corresponding b-boxes as nodes.
+    <br/>
+(c) Select top m rel-pairs as the edges and corresponding b-boxes as nodes.
+    <br/>
+     <b><i>Select nodes first</i></b>
+    <br/>
+(d) Select the top n% b-boxes as nodes and corresponding rel-pairs as edges.
+    <br/>
+(e) Select the b-boxes with confidence score higher than k as nodes and corresponding rel-pairs as edges.
+    <br/>
+(f) Select the top m b-boxes as nodes and corresponding rel-pairs as edges.
+    <br />
+    </p>
+     For each node, we generate a d-dimension word embedding using <a href="https://arxiv.org/abs/1301.3781" target="_blank">
+    (Mikolov et al., 2013)</a>from the label of b-box,which is considered as our initial node feature. If the image has a label, it will be the graph label as well.
+  </div>
+
+  </div>
+</div>
+
+<div class="section">
+
+  <div class="title">Sample Dataset: <b>IMG2SCENEGRAPH-ACSG</b> </div>
+    <b>Img2SceneGraph-ACSG</b> is a scene graph dataset with graph labels.  We created it by using our <b>Img2SceneGraph</b>
+    pipeline on AI Challenger Scene Graph dataset (Jean-Claude).
+          <div class="teaser">
+    <a href="#demo"><img src="media/ACSG.png" style="width: 90%;"></a>
+          <br />
+              <br/>
+               <div class="body">
+              It is a labeled image dataset that contains 7,120 images
+    with 80 classes. We used method (a) described above withn= 10. The word embedding dimension is 500.
+                   <br />
+                   This dataset is used in our paper <a href="https://openreview.net/forum?id=Bo2LZfaVHNi" target="_blank">
+                   Graph Autoencoder for Graph Compression and Representation Learning</a>.
+                   You can find the download link and the code in the following part.
+               </div>
+  </div>
+
+</div>
+<!-- === Overview Section Ends === -->
+
+
+<!-- === Result Section Starts === -->
+<div class="section">
+  <div class="title"><a id="C1">Download and Source code</a></div>
+  <div class="body">
+    You can download the<b>Img2SceneGraph-ACSG</b> dataset here
+    <a href="fonts-v1.zip" download>Download link</a>
+        <br />
+<!--      MIKASA-->
+    <br />
+    <br />
+    The code is released! You can freely modify anything you want to get the your own graph dataset.
+    <a href="https://github.com/gyhandy/Img2SceneGraph" target="_blank">[Code]</a>
+    <br />
+    <br />
+    If you use our dataset or code, please cite the following paper, thanks!
+
+  </div>
+</div>
+<!-- === Result Section Ends === -->
+
+
+<!-- === Reference Section Starts ===-->
+<div class="section">
+  <div class="bibtex">BibTeX</div>
+<pre>
+
+<!--@article{ge2020zero,MIKASA-->
+  title={Graph Autoencoder for Graph Compression and Representation Learning},
+  author={Ge, Yunhao and Peng, Yunkui and Li, Linwei and Itti, Laurent},
+<!--  journal={arXiv preprint arXiv:2009.06586},MIKASA-->
+  year={2021}
+}
+</pre>
+
+  <div class="ref">Related Work</div>
+
+<table id="tbPublications" width="100%">
+    <tr>
+		<td width="306">
+		<img src="media/Paper.png" width="285px" style="box-shadow: 4px 4px 8px #888">
+		</td>
+		<td>   Graph Autoencoder for Graph Compression and Representation Learning <br>
+		Yunhao Ge*, Yunkui Peng*, Linwei Li and Laurent Itti  <br>
+<!--		<em>arXiv:2009.06586</em>, 2021.MIKASA-->
+		<p></p>
+		<p>[<a href="https://openreview.net/forum?id=Bo2LZfaVHNi" target="_blank">paper</a>]
+			[<a href="https://github.com/Pangyk/Graph_AE" target="_blank">code</a>]
+			[<a href="http://ilab.usc.edu/datasets/i2sg" target="_blank">Img2SceneGraph</a>]
+		</td>
+	</tr>
+</table>
+
+  </div>
+<!-- === Reference Section Ends === -->
+<table id="tbPublications" width="10%" align="center">
+<script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=iVKPDWDnWpH3Z9yqkDXAo7oHy06B_95sm_vMZRV5j24&cl=ffffff&w=a"></script>
+</table>
+  <p align="center"><font color="#999999">Last update: Apr. 6, 2021</font></p>
+
+</body>
+</html>

@@ -50,7 +50,7 @@ def g_word_vec(root, out, Name, dim):
 
 
 def main(args):
-    
+
     Info = "custom_data_info.json"
     Pred = 'custom_prediction.json'
     Ann = 'scene_validation_annotations_20170908.json'  # Store file names and it's label id
