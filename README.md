@@ -39,11 +39,11 @@ In this part, we use a trick to "disguise" our custom dataset as their official 
 
   
   
-## Install &Usage
-Tested on:
-    *Ubuntu 18.04* 
-    *Cuda 10.1 & 11.0*
-    *Python 3.8*
+## Install &Usage  
+Tested on:  
+    *Ubuntu 18.04*    
+    *Cuda 10.1 & 11.0*  
+    *Python 3.8*  
 
 
 
