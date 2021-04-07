@@ -17,7 +17,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 
 
-def g_word_vec(root, out, Name):
+def g_word_vec(root, out, Name,dim):
     """
 
     :param root: path to nodel_labels.npy & label_dict.npy
@@ -33,7 +33,7 @@ def g_word_vec(root, out, Name):
     result = dict()
     unique_idx = np.unique(node_labels)
     max_v = np.max(unique_idx) + 1
-    embeds = nn.Embedding(max_v, 500)
+    embeds = nn.Embedding(max_v, dim)
     np.set_printoptions(formatter={'float': '{: 0.6f}'.format})
     for idx in range(max_v):
         embed_idx = Variable(torch.LongTensor([idx]))
@@ -56,6 +56,7 @@ def main(args):
     Out = args.out_dir
     Name = args.name
     method = args.method
+    dim = args.dim
 
     print(Root)
     print(Out)
@@ -213,6 +214,8 @@ def main(args):
     # Node dict
     np.save(os.path.join(Out, 'label_dict.npy'), b)
 
+    g_word_vec(Out,Out,Name,dim)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Data processing for Scene Graph')
@@ -222,5 +225,6 @@ if __name__ == '__main__':
     parser.add_argument('--name', type=str, default='shana', help="Name of our dataset")
     parser.add_argument('--method',type=str,default='a',help="Methods to select edges and nodes")
     parser.add_argument('--para',type=str,default='0',help="parameters that using in different methods")
+    parser.add_argument('--dim',type=int,default=500,help="word_vector dimension")
     args = parser.parse_args()
     main(args)
