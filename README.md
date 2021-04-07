@@ -96,13 +96,14 @@ git clone https://github.com/gyhandy/Img2SceneGraph
 **2. Form Scene Graphs :** *Data_P.py*  
 
 ```
-pyhton Data_P.py --out_dir $Out_dir --root $Root --name Name --method Method --para Para
+pyhton Data_P.py --out_dir $Out_dir --root $Root --name Name --method Method --para Para -- dim Dim
 ```
 *$Out_dir*: Location to store output files. **You should create this folder in advance.**  
 *$Root* : Loacation to store the results from part 1. Aka the files in $Output.  
 *Name* : Name of your custom dataset.  
 *Method* : Method for selecting nodes and edges. From _a_ to _f_. Details refers to [Overview Step 2](#step-2-select-nodes-and-edges-to-form-scene-graphs).  
 *Para* : Parameters for different methods. Note for *n%*, please input *n/100*. For example, 0.1 for 10%.  
+*Dim* : Dimension of word_vector.
 
 * Output files:  
     *Name_A.txt* :  Edges forms by node index.    
@@ -149,7 +150,7 @@ sh ./PyGeo.sh
 ```
 
 **4. Generate global dictionary(optional):** *Global_dict.py*    
-   If you inference multiple times in part 1, the word dictionary may overlapped. This script could merge multiple sets of *node_labels.npy* and *label_dict.npy*  so that we can train the word vector properly. Details please refers to the comment in this script.
+   If you inference multiple times in part 1, the word dictionary may overlapped. This script could merge multiple sets of *node_labels.npy* and *label_dict.npy*  so that we can train the word vector properly. Details please refers to the comment in this script. You could comment Line 217 in *Data_P.py* before calling *Global_dict.py*.  
 
 
 
@@ -191,9 +192,9 @@ This procedure will generates huge files when you have many images to process an
 
 ```
 cd /home/shana/Img2SceneGraph
-python Data_P.py --out_dir /home/shana/results --root /home/shana/checkpoints/results --name mikasa --method a --para 0.1
+python Data_P.py --out_dir /home/shana/results --root /home/shana/checkpoints/results --name mikasa --method a --para 0.1 --dim 400
 ```
-Here we use method a with n% = 10%.
+Here we use method a with n% = 10%, dimension of word_vector = 400.  
 
 ### Step 3: Load into Pytorch geometric
 **1. Script we used**
