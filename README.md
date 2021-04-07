@@ -4,7 +4,7 @@
 
 ## Contents
 1. [Overview](#Overview)
-2. [Install & Usage](#Install &Usage)
+2. [Install & Usage](#Install-Usage)
 3. [Demo](#Demo) 
 4. [Citiation](#Citations)
 
@@ -101,7 +101,7 @@ pyhton Data_P.py --out_dir $Out_dir --root $Root --name Name --method Method --p
 *$Out_dir*: Location to store output files. **You should create this folder in advance.**
 *$Root* : Loacation to store the results from part 1. Aka the files in $Output.
 *Name* : Name of your custom dataset.
-*Method* : Method for selecting nodes and edges. From _a_ to _f_. Details refers to [Overview Step 2](#Step 2: Select nodes and edges to form Scene graphs).
+*Method* : Method for selecting nodes and edges. From _a_ to _f_. Details refers to [Overview Step 2](#step-2-select-nodes-and-edges-to-form-scene-graphs).
 *Para* : Parameters for different methods. Note for *n%*, please input *n/100*. For example, 0.1 for 10%.
 
 * Output files:
