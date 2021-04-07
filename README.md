@@ -212,3 +212,11 @@ sh ./Pygeo.sh
   
   
 ## Citation
+```
+@inproceedings{ge2021graph,
+  title={Graph Autoencoder for Graph Compression and Representation Learning},
+  author={Ge, Yunhao and Pang, Yunkui and Li, Linwei and Itti, Laurent},
+  booktitle={Neural Compression: From Information Theory to Applications--Workshop@ ICLR 2021},
+  year={2021}
+}
+```
