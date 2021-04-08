@@ -98,16 +98,16 @@ git clone https://github.com/gyhandy/Img2SceneGraph
 ```
 pyhton Data_P.py --out_dir $Out_dir --root $Root --name Name --method Method --para Para --dim Dim --max_nodes MaxN --min_nodes MinN --max_edges MaxE --min_edges MinE  
 ```
-*out_dir*: Location to store output files. **You should create this folder in advance.**  
-*root* : Loacation to store the results from part 1. Aka the files in $Output.  
-*name* : Name of your custom dataset.  
-*method* : Method for selecting nodes and edges. From _a_ to _f_. Details refers to [Overview Step 2](#step-2-select-nodes-and-edges-to-form-scene-graphs).  
-*para* : Parameters for different methods. Note for *n%*, please input *n/100*. For example, 0.1 for 10%.  
-*dim* : Dimension of word_vector.  
-*max_nodes* : upper bound of number of nodes.    
-*min_nodes* : lower bound of number of nodes.  
-*max_edges* : upper bound of number of edges.        
-*min_edges* : lower bound of number of edges.  
+*--out_dir* : Location to store output files. **You should create this folder in advance.**  
+*--root* : Loacation to store the results from part 1. Aka the files in $Output.  
+*--name* : Name of your custom dataset.  
+*--method* : Method for selecting nodes and edges. From _a_ to _f_. Details refers to [Overview Step 2](#step-2-select-nodes-and-edges-to-form-scene-graphs).  
+*--para* : Parameters for different methods. Note for *n%*, please input *n/100*. For example, 0.1 for 10%.  
+*--dim* : Dimension of word_vector.  
+*--max_nodes* : upper bound of number of nodes.    
+*--min_nodes* : lower bound of number of nodes.  
+*--max_edges* : upper bound of number of edges.        
+*--min_edges* : lower bound of number of edges.  
 
 * Output files:  
     *Name_A.txt* :  Edges forms by node index.    
