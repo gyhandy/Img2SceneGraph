@@ -18,7 +18,7 @@ Img2SceneGraph provides a pipeline that transfers images to scene graphs with no
 Here is a typical work-flow:
 
 ### Step 1: From labeled images to nodes and edges
-For each images, we use the pre-trained model from [Scene-Graph-Benchmark](https://github.com/KaihuaTang/Scene-Graph-Benchmark.pytorch) to synthesis the following outputs: 79 bounding boxes (b-boxes) labeled by a single word and over 6,000 relationship pairs (rel-pairs) between b-boxes, both of them are sorted by their corresponding confidence scores.
+For each images, we use the pre-trained model from [Scene-Graph-Benchmark](https://github.com/KaihuaTang/Scene-Graph-Benchmark.pytorch) to synthesis the following outputs: 79 bounding boxes (b-boxes) labeled by a single word and over 6,000 relationship pairs (rel-pairs) between b-boxes, both of them are sorted by their corresponding confidence scores. Note the number of b-boxes and rel-pairs may be less depends on specific image.
 
 ### Step 2: Select nodes and edges to form Scene graphs
 To form a scene graph, we provide multiple methods to select edges and nodes.   
@@ -96,14 +96,18 @@ git clone https://github.com/gyhandy/Img2SceneGraph
 **2. Form Scene Graphs :** *Data_P.py*  
 
 ```
-pyhton Data_P.py --out_dir $Out_dir --root $Root --name Name --method Method --para Para -- dim Dim
+pyhton Data_P.py --out_dir $Out_dir --root $Root --name Name --method Method --para Para --dim Dim --max_nodes MaxN --min_nodes MinN --max_edges MaxE --min_edges MinE  
 ```
-*$Out_dir*: Location to store output files. **You should create this folder in advance.**  
-*$Root* : Loacation to store the results from part 1. Aka the files in $Output.  
-*Name* : Name of your custom dataset.  
-*Method* : Method for selecting nodes and edges. From _a_ to _f_. Details refers to [Overview Step 2](#step-2-select-nodes-and-edges-to-form-scene-graphs).  
-*Para* : Parameters for different methods. Note for *n%*, please input *n/100*. For example, 0.1 for 10%.  
-*Dim* : Dimension of word_vector.
+*out_dir*: Location to store output files. **You should create this folder in advance.**  
+*root* : Loacation to store the results from part 1. Aka the files in $Output.  
+*name* : Name of your custom dataset.  
+*method* : Method for selecting nodes and edges. From _a_ to _f_. Details refers to [Overview Step 2](#step-2-select-nodes-and-edges-to-form-scene-graphs).  
+*para* : Parameters for different methods. Note for *n%*, please input *n/100*. For example, 0.1 for 10%.  
+*dim* : Dimension of word_vector.  
+*max_nodes* : upper bound of number of nodes.    
+*min_nodes* : lower bound of number of nodes.  
+*max_edges* : upper bound of number of edges.        
+*min_edges* : lower bound of number of edges.  
 
 * Output files:  
     *Name_A.txt* :  Edges forms by node index.    
@@ -117,7 +121,8 @@ pyhton Data_P.py --out_dir $Out_dir --root $Root --name Name --method Method --p
   
     In Line 54, there's a file named Ann. It's a json file that records the graph(image) label. Since it's hard to predict how different image datasets store their labels, we didn't make it applicable to every dataset.
     
-    But the code logic is simple. You just need to modify the file name here and then change the code from Line 94-101 in order to store the graph(image) label into list Graph_Labels. There are a lot of comments so it should be no problem.
+    But the code logic is simple. You just need to modify the file name here and then change the code from Line 94-103 & Line 164-170 in order to store the graph(image) label into list Graph_Labels. There are a lot of comments so it should be no problem.  
+    Also, the lower bound and upper bound of edges and nodes will be limited by the actual number of b-boxes and rel-pairs.
     
     
 
@@ -150,7 +155,7 @@ sh ./PyGeo.sh
 ```
 
 **4. Generate global dictionary(optional):** *Global_dict.py*    
-   If you inference multiple times in part 1, the word dictionary may overlapped. This script could merge multiple sets of *node_labels.npy* and *label_dict.npy*  so that we can train the word vector properly. Details please refers to the comment in this script. You could comment Line 217 in *Data_P.py* before calling *Global_dict.py*.  
+   If you inference multiple times in part 1, the word dictionary may overlapped. This script could merge multiple sets of *node_labels.npy* and *label_dict.npy*  so that we can train the word vector properly. Details please refers to the comment in this script. You could comment Line 228 (which calls the *g_word_vec* function) in *Data_P.py* before calling *Global_dict.py*.  
 
 
 
