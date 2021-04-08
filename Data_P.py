@@ -67,9 +67,11 @@ def main(args):
     O_Gid = Name + '_graph_indicator.txt'
     O_Gla = Name + '_graph_labels.txt'
 
-    # Num_Nodes = 79
+    max_nodes = int(args.max_nodes)
+    min_nodes = int(args.min_nodes)
+    max_edges = int(args.max_edges)
+    min_edges = int(args.min_edges)
 
-    Num_Edges = 5
     Edges = []
     Node_Labels = []
     Node_Index = []
@@ -84,12 +86,9 @@ def main(args):
 
     Num = len(info['idx_to_files'])
     Node_L = info['ind_to_classes']
+
+    # Edges first
     if method == 'a' or method == 'b' or method == 'c':
-        if method == 'a':
-            percent = float(args.para)
-            Num_Edges = int(79 * 79 * percent)
-        if method == 'c':
-            Num_Edges = int(args.para)
 
         global_node_index = 1
         for i in range(Num):
@@ -109,7 +108,11 @@ def main(args):
             ## Step 2: Get_temp_Edges
             pairs = pr_now['rel_pairs']
             temp = 0
-
+            if method == 'a':
+                percent = float(args.para)
+                Num_Edges = int(len(pairs) * percent)
+            if method == 'c':
+                Num_Edges = int(args.para)
             if method == 'b':
                 Num_Edges = 0
                 scores = float(args.para)
@@ -117,6 +120,10 @@ def main(args):
                 for score in ss:
                     if float(score) >= scores:
                         Num_Edges = Num_Edges + 1
+            Num_Edges = max(min_edges,Num_Edges)  # meet the lower bound
+            Num_Edges = min(max_edges,Num_Edges) # meet the upper bound
+            Num_Edges = min(len(pairs),Num_Edges) # make sure that have enough edges
+
             for j in range(Num_Edges):
                 a = pairs[j][0]
                 b = pairs[j][1]
@@ -151,7 +158,7 @@ def main(args):
             global_node_index += Num_Nodes
         # print(global_node_index)
 
-
+    # Nodes first
     else:
         global_node_index = 1
         for i in range(Num):
@@ -167,7 +174,7 @@ def main(args):
             ## Step 2: Get Node Index and Node Labels
             Num_Nodes = 0
             if method == 'd':
-                Num_Nodes = int(79 * float(args.para))
+                Num_Nodes = int(len(pr_now['bbox_labels']) * float(args.para))
             if method == 'f':
                 Num_Nodes = int(args.para)
             if method == 'e':
@@ -176,6 +183,10 @@ def main(args):
                 for score in ss:
                     if float(score) >= scores:
                         Num_Nodes = Num_Nodes + 1
+
+            Num_Nodes = max(min_nodes, Num_Nodes)  # meet the lower bound
+            Num_Nodes = min(max_nodes, Num_Nodes)  # meet the upper bound
+            Num_Nodes = min(len(pr_now['bbox_labels']), Num_Nodes)  # make sure that have enough edges
             for j in range(Num_Nodes):
                 Node_Index.append(i + 1)
                 Node_Labels.append(pr_now['bbox_labels'][j])
@@ -226,5 +237,9 @@ if __name__ == '__main__':
     parser.add_argument('--method', type=str, default='a', help="Methods to select edges and nodes")
     parser.add_argument('--para', type=str, default='0', help="parameters that using in different methods")
     parser.add_argument('--dim', type=int, default=500, help="word_vector dimension")
+    parser.add_argument('--min_edges',type=int,default=10,help="minimal number of edges")
+    parser.add_argument('--max_edges',type=int,default=800,help="maximal number of edges")
+    parser.add_argument('--min_nodes', type=int, default=3, help="minimal number of nodes")
+    parser.add_argument('--max_nodes', type=int, default=79, help="maximal number of nodes")
     args = parser.parse_args()
     main(args)
